@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Book from './Book';
 import * as BooksAPI from './BooksAPI';
@@ -6,20 +6,22 @@ import * as BooksAPI from './BooksAPI';
 function Search({ books, changeShelf }) {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const updateQuery = (newQuery) => {
-    setQuery(newQuery);
-    if (newQuery) {
-      BooksAPI.search(newQuery).then((result) => {
-        if (result && !result.error) {
-          setSearchResults(result);
-        } else {
-          setSearchResults([]);
-        }
-      });
-    } else {
-      setSearchResults([]);
-    }
-  };
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (query) {
+        BooksAPI.search(query).then((result) => {
+          if (result && !result.error) {
+            setSearchResults(result);
+          } else {
+            setSearchResults([]);
+          }
+        });
+      } else {
+        setSearchResults([]);
+      }
+    }, 250);
+    return () => clearTimeout(timeout);
+  }, [query]);
   return (
     <div className='search-books'>
       <div className='search-books-bar'>
@@ -30,7 +32,7 @@ function Search({ books, changeShelf }) {
           <input
             type='text'
             value={query}
-            onChange={(event) => updateQuery(event.target.value)}
+            onChange={(event) => setQuery(event.target.value)}
             placeholder='Search by title, author, or ISBN'
           />
         </div>
