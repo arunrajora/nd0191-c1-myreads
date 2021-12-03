@@ -1,6 +1,6 @@
 import { SHELVES } from './constants';
 
-function Book({ book }) {
+function Book({ book, changeShelf }) {
   return (
     <div className='book'>
       <div className='book-top'>
@@ -13,7 +13,10 @@ function Book({ book }) {
           }}
         ></div>
         <div className='book-shelf-changer'>
-          <select>
+          <select
+            value={book.shelf}
+            onChange={(event) => changeShelf(book, event.target.value)}
+          >
             <option value='none' disabled>
               Move to...
             </option>

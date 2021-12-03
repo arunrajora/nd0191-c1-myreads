@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Shelf from './Shelf';
 import { SHELVES } from './constants';
 
-function Home({ books }) {
+function Home({ books, changeShelf }) {
   return (
     <div className='list-books'>
       <div className='list-books-title'>
@@ -13,9 +13,9 @@ function Home({ books }) {
           {SHELVES.map(({ id, name }) => (
             <Shelf
               key={id}
-              id={id}
               title={name}
               books={books.filter((book) => book.shelf === id)}
+              changeShelf={changeShelf}
             />
           ))}
         </div>

@@ -8,6 +8,19 @@ import * as BooksAPI from './BooksAPI';
 function App() {
   const [books, setBooks] = useState([]);
 
+  const changeShelf = (bookToBeUpdated, shelf) => {
+    BooksAPI.update(bookToBeUpdated, shelf).then(() => {
+      setBooks(
+        books
+          .filter((book) => book.id !== bookToBeUpdated.id)
+          .concat({
+            ...bookToBeUpdated,
+            shelf,
+          })
+      );
+    });
+  };
+
   useEffect(() => {
     BooksAPI.getAll().then((result) => setBooks(result));
   }, []);
@@ -15,7 +28,10 @@ function App() {
   return (
     <div className='app'>
       <Routes>
-        <Route index element={<Home books={books} />} />
+        <Route
+          index
+          element={<Home books={books} changeShelf={changeShelf} />}
+        />
         <Route path='/search' element={<Search />} />
       </Routes>
     </div>
