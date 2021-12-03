@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import Shelf from './Shelf';
+import { SHELVES } from './constants';
 
-function Home() {
+function Home({ books }) {
   return (
     <div className='list-books'>
       <div className='list-books-title'>
@@ -9,9 +10,14 @@ function Home() {
       </div>
       <div className='list-books-content'>
         <div>
-          <Shelf />
-          <Shelf />
-          <Shelf />
+          {SHELVES.map(({ id, name }) => (
+            <Shelf
+              key={id}
+              id={id}
+              title={name}
+              books={books.filter((book) => book.shelf === id)}
+            />
+          ))}
         </div>
       </div>
       <div className='open-search'>
