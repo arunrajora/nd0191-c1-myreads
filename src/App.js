@@ -32,7 +32,10 @@ function App() {
           index
           element={<Home books={books} changeShelf={changeShelf} />}
         />
-        <Route path='/search' element={<Search />} />
+        <Route
+          path='/search'
+          element={<Search books={books} changeShelf={changeShelf} />}
+        />
       </Routes>
     </div>
   );

@@ -17,9 +17,7 @@ function Book({ book, changeShelf }) {
             value={book.shelf}
             onChange={(event) => changeShelf(book, event.target.value)}
           >
-            <option value='none' disabled>
-              Move to...
-            </option>
+            <option disabled>Move to...</option>
             {SHELVES.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}
